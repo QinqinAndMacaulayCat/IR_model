@@ -112,7 +112,8 @@ $$
 Taking the logarithm of the likelihood function, we get the log-likelihood function:
 
 $$
-\ln L = - \frac{1}{2} ln(2 \pi) - \frac{1}{2} ln(2 \sigma^{*2} / (1 - \beta^{*2})) - \frac{(r_0 - [\alpha^*/(1 - \beta^*)])}{2 \sigma^{*2} / (1 - \beta^{*2})} - \frac{N}{2} ln(2 \pi) - N ln(\sigma^*) - \frac{1}{2\sigma^{*2}} \sum_{i=1}^{N} (r_{i \Delta} - (\alpha^* + \beta^* r_{(i-1) \Delta}))^2
+\ln L = - \frac{1}{2} ln(2 \pi) - \frac{1}{2} ln(2 \sigma^{*2} / (1 - \beta^{*2})) - \frac{(r_0 - [\alpha^*/(1 - \beta^*)])^2}{2 \sigma^{*2} / (1 - \beta^{*2})} \\
+- \frac{N}{2} ln(2 \pi) - N ln(\sigma^*) - \frac{1}{2\sigma^{*2}} \sum_{i=1}^{N} (r_{i \Delta} - (\alpha^* + \beta^* r_{(i-1) \Delta}))^2
 $$
 
 
@@ -143,6 +144,7 @@ To calibrate the model, we minimize the sum of squared differences between the m
 $$
 \min_{\gamma^*, \bar{r}^*, \sigma} \sum_{i=1}^{N} (P^{mkt}(0, T_i) - P(0, T_i))^2
 $$  
+
 
 ## Cox-Ingersoll-Ross (CIR) Model
 
@@ -589,7 +591,6 @@ $$
 $$
 d_2 = d_1 - S_Z(T-\Delta;T)
 $$
-$$
 
 $B(t;T)$ is given by:
 
@@ -666,10 +667,9 @@ $$
 **Forward rate volatility term (Two-Factor Hull–White)**
 $$
 S_Z(T_o;T_B)^2
-= B_1(T_o;T_B)^2 \,\frac{\sigma_1^2}{2\gamma_1^*}\big(1-e^{-2\gamma_1^* T_o}\big)
-+ B_2(T_o;T_B)^2 \,\frac{\sigma_2^2}{2\gamma_2^*}\big(1-e^{-2\gamma_2^* T_o}\big)
+= B_1(T_o;T_B)^2 \,\frac{\sigma_1^2}{2\gamma_1^*}\big(1-e^{-2\gamma_1^* T_o}\big) \\
++ B_2(T_o;T_B)^2 \,\frac{\sigma_2^2}{2\gamma_2^*}\big(1-e^{-2\gamma_2^* T_o}\big) \\
 + B_1(T_o;T_B) B_2(T_o;T_B)\, \frac{1 - e^{-(\gamma_1^*+\gamma_2^*) T_o}}{\gamma_1^*+\gamma_2^*}\,\sigma_1\sigma_2\rho
-\tag{22.57}
 $$
 
 where
@@ -708,9 +708,9 @@ To do this, we need:
 
 $$
 S_Z(T-\Delta;T)^2 =
-B_1(T-\Delta;T)^2 \cdot \frac{\sigma_1^2}{2\gamma_1^*}\big(1 - e^{-2\gamma_1^*(T-\Delta)}\big)
-+ B_2(T-\Delta;T)^2 \cdot \frac{\sigma_2^2}{2\gamma_2^*}\big(1 - e^{-2\gamma_2^*(T-\Delta)}\big)
-+ B_1(T-\Delta;T) B_2(T-\Delta;T) \cdot
+B_1(T-\Delta;T)^2 \cdot \frac{\sigma_1^2}{2\gamma_1^*}\big(1 - e^{-2\gamma_1^*(T-\Delta)}\big) \\ 
++ B_2(T-\Delta;T)^2 \cdot \frac{\sigma_2^2}{2\gamma_2^*}\big(1 - e^{-2\gamma_2^*(T-\Delta)}\big) \\
++ B_1(T-\Delta;T) B_2(T-\Delta;T) \cdot 
 \frac{1 - e^{-(\gamma_1^*+\gamma_2^*)(T-\Delta)}}{\gamma_1^*+\gamma_2^*}\,\sigma_1\sigma_2\rho.
 $$
 
