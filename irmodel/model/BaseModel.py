@@ -7,21 +7,13 @@ It provides common attributes and methods that can be inherited by subclasses:
 from abc import ABC, abstractmethod
 
 class BaseModel(ABC):
-
+    
     @abstractmethod
     def simulate(self, r0, dt, T, N, **kwargs):
         """
         Abstract method to simulate a path. Must be implemented by subclasses.
         """
         ...
-
-    @abstractmethod
-    def price_bond(self):
-        """
-        Abstract method to price an ZCB. Must be implemented by subclasses.
-        """
-        ...
-
     @abstractmethod
     def calibrate(self, *kwargs):
         """

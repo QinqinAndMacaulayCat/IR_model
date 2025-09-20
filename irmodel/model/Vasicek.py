@@ -375,8 +375,6 @@ class Vasicek(BaseModel):
         
         return self._params
 
-    def price_bond(self, r0: float, T: float) -> float:
-        ...
 
     def simulate(self, 
                  r0: float, 
