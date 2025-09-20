@@ -1,6 +1,13 @@
 
-import sys
-import os
+
+"""
+This script performs parameter recovery analysis and out-of-sample evaluation for the Vasicek interest rate model.
+It includes:
+1. Parameter recovery analysis using MLE and risk-neutral methods.
+2. Out-of-sample evaluation of the Vasicek model calibrated to historical short rate data.
+
+"""
+
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -89,5 +96,9 @@ def out_of_sample_mle():
     plt.plot(short_rate_data.loc[train_size:, 'DATE'], simulated[indexes][:, :10], label='Vasicek Model Prediction', color='green')
     plt.title('Vasicek Model Calibration and Prediction')
     plt.savefig("results/vasicek_calibration.png")
+
+if __name__ == "__main__":
+    param_recovery_analysis()
+    out_of_sample_mle()
 
 

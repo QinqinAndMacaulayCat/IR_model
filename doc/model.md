@@ -181,11 +181,11 @@ However, this method can lead to negative interest rates if $r_t$ is small and t
 
 
 $$
-r_{t + \Delta t} = c_s \chi^2(c_s r_{t+\Delta t}; \nu, \lambda_{t+\Delta t})
+r_{t + \Delta t} \sim \frac{1}{c_{\Delta t}} \chi^2(c_{\Delta t} r_{t+\Delta t}; \nu, \lambda_{t+\Delta t})
 $$
 
 $$
-\lambda_{t+\Delta t} = c_s r_t e^{-\gamma \Delta t}
+\lambda_{t+\Delta t} = c_{\Delta t} r_t e^{-\gamma \Delta t}
 $$
 
 $$
@@ -519,8 +519,8 @@ $$
 $$
 E[r_{t+s} \mid r_t] = r_t \exp(-\gamma^* s) 
 + \exp(-\gamma^*(t+s)) \int_t^{t+s} \theta_u \exp(\gamma^* u)\,du\\
-= r_t \exp(-\gamma^* s) 
-+ f(0, s+t) - f(0,t)\exp(-\gamma^* s) 
+= r_t \exp(-\gamma^* s) \\
++ f(0, s+t) - f(0,t)\exp(-\gamma^* s) \\
 + \frac{\sigma^2}{2(\gamma^*)^2} \Big[ 
 1 - \exp(-\gamma^* s) 
 + \exp(-2\gamma^*(t+s)) 
@@ -536,6 +536,52 @@ $$
 
 Here $f(0,t)$ is the instantaneous forward rate at time 0 for maturity $t$ derived from the initial yield curve.
 
+The Zero-coupon bond price is given by:
+
+$$
+Z(r_t, t; T) = e^{A(t;T) - B(t;T) r_t}
+$$
+
+$$
+B(t;T) = \frac{1 - e^{-\gamma^* (T - t)}}{\gamma^*}
+$$
+
+$$
+A(t;T) = - \int_t^T B(t, T-u) \theta(u)\,du \\
++ \frac{\sigma^2}{2 \gamma^{*2}} (T + \frac{1-e^{-2 \gamma^* (T-t)}}{2 \gamma^*} - 2 B(t;T)) \\ 
+$$
+
+By taking partial derivative of $Z(r_0, 0; T)$ with respect to $T$, we can derive $\theta(t)$ as a function of $f(0,t)$:
+
+$$
+f(0,t) = -\frac{\partial \log Z(r_0, 0; t)}{\partial t}
+$$
+
+which is the instantaneous forward rate at time 0 for maturity $t$ derived from the initial yield curve.
+
+$$
+\theta(t) = \frac{\partial f(0,t)}{\partial t} + \gamma^* f(0,t) + \frac{\sigma^2}{2\gamma^*}(1 - e^{-2\gamma^* t})
+$$
+
+### Simulating paths
+
+#### Transition Density Method
+
+As the Hull-White model is a Gaussian model (Ornstein-Uhlenbeck process), the short rate is normally distributed.
+The expected value and variance of $r_{t+s}$ are given above. Therefore, we can simulate the short rate directly:
+
+$$
+r_{t + \Delta t} = E[r_{t + \Delta t} | r_t] + \sqrt{Var[r_{t + \Delta t} | r_t]} Z_t
+$$
+
+#### Euler-Maruyama Method
+
+Similarly, we can use Euler-Maruyama method to simulate the short rate:
+
+$$
+r_{t+\Delta t} = r_t + [\theta(t) - \gamma^* r_t] \Delta t + \sigma \sqrt{\Delta t} Z_t
+$$
+
 ### Calibration
 
 We should firstly interpolate the yield curve with cubic splines, higher degree polynomials or Nelson-Siegel method to get a smooth curve. $f(0,t)$ can be derived from the fitted yield curve.
@@ -548,12 +594,43 @@ Steps:
 3. Calculate $f(0,t)$ from $\hat{r}(0,t)$:
 
 $$
-\hat{f}(0,t) = \frac{t \partial \hat{r}(0,t)}{\partial t}
+\hat{f}(0,t) = \frac{\partial t \hat{r}(0,t)}{\partial t}
 $$
 
 Use the data table 19.4 which gives swap rate, discount factors and cap prices to calibrate the model.
 
+Steps in calibration:
+1. Estimate forward rates $f(0,t)$ from the yield curve.
+2. Calibrate implied volatilities of caps.
+3. Choose initial guess for $\gamma^*$ and $\sigma$ and calculate $\theta(t)$.
+4. Calibrate $\gamma^*$ and $\sigma$ by minimizing the sum of squared differences between market prices of caps and model prices of caps (or implied volatilities of caps)
+5. Repeat steps 2 and 3 until convergence and obtain $\theta(t)$ using $f(0,t)$, $\gamma^*$ and $\sigma$.
+
 ---
+
+The price of a caplet is given by the Black formula:
+
+$$
+V(r_0,0) = M \times \Big( K Z(r_0,0;T-\Delta)N(-d_2) - Z(r_0,0;T)N(-d_1) \Big)
+$$
+
+$$
+d_1 = \frac{1}{S_Z(T-\Delta;T)} \log\!\left( \frac{Z(r_0,0;T)}{K Z(r_0,0;T-\Delta)} \right) 
++ \frac{S_Z(T-\Delta;T)}{2}
+$$
+
+$$
+d_2 = d_1 - S_Z(T-\Delta;T)
+$$
+
+$B(t;T)$ is given by:
+
+$$
+B(t;T) = \frac{1 - e^{-\gamma^* (T - t)}}{\gamma^*}
+$$
+
+$Z(r_0,0;T)$ is the zero-coupon bond price at time 0 for maturity $T$
+
 
 To price caps, we need to calculate the volatility of the zero-coupon bond price:
 
@@ -576,27 +653,8 @@ $$
 K = \frac{1}{1+r_K\Delta}
 $$
 
+Notice that $\theta(t)$ is not needed in the caplet pricing formula. That's because $\theta(t)$ is determined by the initial yield curve and does not affect the dynamics of the short rate under the risk-neutral measure. In derivatives pricing, we are primarily concerned with the volatility and mean-reversion characteristics of the short rate, which are captured by $\sigma$ and $\gamma^*$. Therefore, only these two parameters need to be calibrated to market prices of interest rate derivatives.
 
-The price of a caplet is given by the Black formula:
-
-$$
-V(r_0,0) = M \times \Big( K Z(r_0,0;T-\Delta)N(-d_2) - Z(r_0,0;T)N(-d_1) \Big)
-$$
-
-$$
-d_1 = \frac{1}{S_Z(T-\Delta;T)} \log\!\left( \frac{Z(r_0,0;T)}{K Z(r_0,0;T-\Delta)} \right) 
-+ \frac{S_Z(T-\Delta;T)}{2}
-$$
-
-$$
-d_2 = d_1 - S_Z(T-\Delta;T)
-$$
-
-$B(t;T)$ is given by:
-
-$$
-B(t;T) = \frac{1 - e^{-\gamma^* (T - t)}}{\gamma^*}
-$$
 
 ## Two Factor Hull-White Model
 

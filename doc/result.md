@@ -1,6 +1,7 @@
 
 # Vasicek
 
+
 ## Sensitivity Analysis
 
 ### Parameter Recovery
@@ -36,3 +37,66 @@ From the result, we can see the forecast performance is not very good, which ind
 
 
 ![Out-of-Sample Simulation](../scripts/results/vasicek_calibration.png)
+
+## Other
+
+Also, we need about 100 days of data to get a relatively stable calibration result.
+
+
+# Cox-Ingersoll-Ross (CIR) Model
+
+
+## Sensitivity Analysis
+
+### Parameter Recovery
+
+We examine the robustness of the calibration results in MLE using parameter recovery. The result shows that the calibration is not stable.
+
+Possible reasons include:
+
+1. The parameters are not identifiable. Different parameter combinations can produce similar short rate dynamics.
+2. The optimization algorithm may get stuck in local minima, leading to suboptimal parameter estimates.
+
+
+```plaintext
+True parameters: CIRparams(gamma=2.2, barR=0.05, alpha=0.1)
+bias [0.45084599 0.01418719 0.01599974]
+std [0.92480553 0.04271582 0.04835599]
+rmse [1.0288476  0.04501019 0.05093421]
+rrmse [0.467658   0.90020383 0.50934211]
+```
+
+### Moving Window Calibration
+We perform a moving window calibration every 2 days to examine the stability of the calibration results over time.
+The result shows that the calibration is not stable, which may be due to the same reasons mentioned above.
+![Moving Window Calibration](../scripts/results/CIR_moving_window_estimation.png)
+
+    
+## Other
+
+We need at least 500 days of data to get a relatively stable calibration result.
+
+
+# Hull-White Model
+
+## In-sample Fitting
+
+I calibrated the Hull-White model based on caps prices. The in-sample fitting result shows that the model can fit the market prices well.
+
+The RMSE and RRMSE between implied volatilities from market prices and model prices are very small, indicating a good fit.
+
+```plaintext
+Calibration success: True
+Calibrated gamma: 0.09991703170133777
+Calibrated sigma: 0.015449200199423408
+RMSE: 0.00015747248434837467
+RRMSE: 0.007237722105555996
+```
+
+The parameter $\theta(t)$ are used to fit the initial yield curve so they are not calibrated here. Instead, they are derived from the initial yield curve and the calibrated $\gamma$ and $\sigma$.
+
+## Rebuilding the Yield Curve
+
+I rebuilt the yield curve using the calibrated Hull-White model and compared it with the market yield curve. The result shows that the model can fit the market yield curve well.
+
+![Yield Curve Comparison](../scripts/results/hull_white_yield_curve.png)
