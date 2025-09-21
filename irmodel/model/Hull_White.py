@@ -1,5 +1,12 @@
 """
 Hull-White model implementation in Python 
+Includes classes:
+    - HullWhiteCapsPricer: Pricing caps and caplets, calculating implied volatilities, and bootstrapping volatilities.
+    - HullWhiteCalibrator: Calibrating Hull-White model parameters to market cap prices.
+    - HullWhiteSimulator: Simulating short rate paths using the Hull-White model.
+    - f: Calculating forward rates and their differentials using polynomial interpolation.
+    - HullWhiteFunc: Functions related to the Hull-White model, including A(t,T), B(t,T), and zero-coupon bond pricing.
+    - HullWhiteParams: Data class to hold Hull-White model parameters.
 
 """
 

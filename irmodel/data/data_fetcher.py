@@ -1,3 +1,9 @@
+"""
+This module provides a class to fetch sample financial data from RDA files:
+    - Short Rate Data
+    - Zero-Coupon Bond Price Data
+    - Hull-White Cap Price Data
+"""
 import pyreadr
 import os
 

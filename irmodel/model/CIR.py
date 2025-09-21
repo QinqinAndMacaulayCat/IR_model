@@ -1,3 +1,15 @@
+"""
+CIR Model Implementation
+Include classes:
+    - CIRparams: Data class for CIR model parameters
+    - CIRfunc: Static methods for CIR model calculations
+    - CIRsimulator: Simulate interest rate paths using CIR model
+    - CIRCalibrator: Calibrate CIR model parameters to market data
+    - CIRValidator: Validate CIR model through parameter recovery
+    - CIR: Main class integrating simulation, calibration, and validation
+
+
+"""
 from irmodel.model.BaseModel import BaseModel
 
 import numpy as np

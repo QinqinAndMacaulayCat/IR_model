@@ -1,17 +1,14 @@
 """
 This module defines the Vasicek model for interatest rates, which is a type of one-factor short rate model.
 
-Includes:
-    - VasicekParams: A dataclass to hold the parameters of the Vasicek model.
-    - Vasicek: A class that implements the Vasicek model, inheriting from BaseModel.
-        - __init__: Initializes the Vasicek model with given parameters.
-        - params: Property to access the model parameters.
-        - simulate: Method to simulate the short rate path using the Vasicek model. use the Euler-Maruyama method or Transition Density method.
-        - bond_price: Method to calculate the price of a zero-coupon bond under the Vasicek model.
-        - calibrate: Method to calibrate the model parameters to market data. including Maximum Likelihood Estimation or Risk-Neutral Calibration.
+Include classes:
+    - VasicekParams: Data class to hold the parameters of the Vasicek model.
+    - VasicekSimulator: Class to simulate short rate paths using the Vasicek model.
+    - VasicekBondPricer: Class to price zero-coupon bonds under the Vasicek model.
+    - VasicekCalibrator: Class to calibrate the Vasicek model parameters to market data.
+    - VasicekValidator: Class to validate the calibration of the Vasicek model.
+    - Vasicek: Main class that integrates simulation, pricing, calibration, and validation functionalities.
 
-References:
-    doc-model.md
 """
 
 import numpy as np
