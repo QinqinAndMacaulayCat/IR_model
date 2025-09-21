@@ -1,0 +1,4 @@
+# List Python dependencies for the IR_model project
+numpy
+scipy
+# Add more dependencies as needed

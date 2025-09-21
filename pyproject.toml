@@ -1,7 +1,39 @@
+
+
+[tool.poetry]
+name = "irmodel"
+version = "0.1.0"
+description = "Interest Rate Model package supporting Vasicek, Hull-White, CIR, and more."
+authors = ["QinqinAndMacaulayCat <your@email.com>"]
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/QinqinAndMacaulayCat/IR_model"
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+numpy = "*"
+scipy = "*"
+
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
 
 [project]
 name = "irmodel"
 version = "0.1.0"
+description = "Interest Rate Model package supporting Vasicek, Hull-White, CIR, and more."
+authors = [
+	{ name = "QinqinAndMacaulayCat" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+dependencies = [
+	"numpy",
+	"scipy"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/QinqinAndMacaulayCat/IR_model"
+"Documentation" = "https://github.com/QinqinAndMacaulayCat/IR_model"
