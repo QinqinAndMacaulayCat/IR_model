@@ -8,6 +8,7 @@ SDE:
 $$
 d r_t = \gamma (\bar{r} - r_t) d t + \sigma d X_t
 $$
+
 where 
 - $X_t$ is a standard Brownian motion.
 - $\gamma$ is the speed of reversion.
@@ -21,7 +22,7 @@ $$
 r_{t+s} = r_t e^{-\gamma s} + \bar{r}(1 - e^{-\gamma s}) + \sigma e^{-\gamma s} \int_0^s e^{\gamma u} d X_u
 $$
 
-Since $ \int_0^s e^{\gamma u} d X_u$ is normally distributed, $r_t$ is also normally distributed with mean and variance given by:
+Since $\int_0^s e^{\gamma u} d X_u$ is normally distributed, $r_t$ is also normally distributed with mean and variance given by:
 
 $$
 E[r_t, s] = \bar{r} + (r_t - \bar{r}) e^{-\gamma s}
@@ -77,11 +78,11 @@ $$
 where
 
 $$
-\alpha^* = \bar{r}(1 - e^{-\gamma \Delta})
+\alpha^{*} = \bar{r}(1 - e^{-\gamma \Delta})
 $$
 
 $$
-\beta^* = e^{-\gamma \Delta}
+\beta^{*} = e^{-\gamma \Delta}
 $$
 
 $$
@@ -91,29 +92,29 @@ $$
 The density function is:
 
 $$
-f(r_{i \Delta} | r_{(i-1) \Delta}) = \frac{1}{\sqrt{2\pi \sigma^{*2}}} \exp\left(-\frac{(r_{i \Delta} - (\alpha^* + \beta^* r_{(i-1) \Delta}))^2}{2\sigma^{*2}}\right)
+f(r_{i \Delta} | r_{(i-1) \Delta}) = \frac{1}{\sqrt{2\pi \sigma^{*2}}} \exp\left(-\frac{(r_{i \Delta} - (\alpha^{*} + \beta^{*} r_{(i-1) \Delta}))^2}{2\sigma^{*2}}\right)
 $$
 
 The joint likelihood function for the observed data is:
 
 $$
-L = f_0(r_0 | \alpha^*, \beta^*, \sigma^{*2}) \prod_{i=1}^{N} f(r_{i \Delta} | r_{(i-1) \Delta})\\
-= f_0(r_0|\alpha^*, \beta^*, \sigma^{*2}) \exp\left(-\frac{1}{2\sigma^{*2}} \sum_{i=1}^{N} (r_{i \Delta} - (\alpha^* + \beta^* r_{(i-1) \Delta}))^2\right) \frac{1}{\sqrt{(2\pi)^N} \sigma^{*N}}
+L = f_0(r_0 | \alpha^{*}, \beta^{*}, \sigma^{*2}) \prod_{i=1}^{N} f(r_{i \Delta} | r_{(i-1) \Delta})\\
+= f_0(r_0|\alpha^{*}, \beta^{*}, \sigma^{*2}) \exp\left(-\frac{1}{2\sigma^{*2}} \sum_{i=1}^{N} (r_{i \Delta} - (\alpha^{*} + \beta^{*} r_{(i-1) \Delta}))^2\right) \frac{1}{\sqrt{(2\pi)^N} \sigma^{*N}}
 $$
 
 If sample size $N$ is large, the influence of the initial density $f_0$ is negligible. 
 
-Else, we can assume $r_0$ is normally distribution with mean $\frac{\alpha^*}{1 - \beta^*}$ and variance $\frac{\sigma^{*2}}{1 - \beta^{*2}}$. The pdf of $r_0$ is:
+Else, we can assume $r_0$ is normally distribution with mean $\frac{\alpha^{*}}{1 - \beta^{*}}$ and variance $\frac{\sigma^{*2}}{1 - \beta^{*2}}$. The pdf of $r_0$ is:
 
 $$
-f_0(r_0 | \alpha^*, \beta^*, \sigma^{*2}) = \frac{1}{\sqrt{2\pi \frac{\sigma^{*2}}{1 - \beta^{*2}}}} \exp\left(-\frac{(r_0 - \frac{\alpha^*}{1 - \beta^*})^2}{2 \frac{\sigma^{*2}}{1 - \beta^{*2}}}\right)
+f_0(r_0 | \alpha^{*}, \beta^{*}, \sigma^{*2}) = \frac{1}{\sqrt{2\pi \frac{\sigma^{*2}}{1 - \beta^{*2}}}} \exp\left(-\frac{(r_0 - \frac{\alpha^{*}}{1 - \beta^{*}})^2}{2 \frac{\sigma^{*2}}{1 - \beta^{*2}}}\right)
 $$
 
 Taking the logarithm of the likelihood function, we get the log-likelihood function:
 
 $$
-\ln L = - \frac{1}{2} ln(2 \pi) - \frac{1}{2} ln(2 \sigma^{*2} / (1 - \beta^{*2})) - \frac{(r_0 - [\alpha^*/(1 - \beta^*)])^2}{2 \sigma^{*2} / (1 - \beta^{*2})} \\
-- \frac{N}{2} ln(2 \pi) - N ln(\sigma^*) - \frac{1}{2\sigma^{*2}} \sum_{i=1}^{N} (r_{i \Delta} - (\alpha^* + \beta^* r_{(i-1) \Delta}))^2
+ln L = - \frac{1}{2} ln(2 \pi) - \frac{1}{2} ln(2 \sigma^{*2} / (1 - \beta^{*2})) - \frac{(r_0 - (\alpha^{*}/(1 - \beta^*))^2}{2 \sigma^{*2} / (1 - \beta^{*2})} \\
+- \frac{N}{2} ln(2 \pi) - N ln(\sigma^{*}) - \frac{1}{2\sigma^{*2}} \sum_{i=1}^{N} (r_{i \Delta} - (\alpha^{*} + \beta^{*} r_{(i-1) \Delta}))^2
 $$
 
 
@@ -134,15 +135,15 @@ B(t, T) = \frac{1 - e^{-\gamma^* (T - t)}}{\gamma^*}
 $$
 
 $$
-A(t, T) = (B(t, T) - (T - t))(\bar{r}^* - \frac{\sigma^2}{2\gamma^{*2}}) - \frac{\sigma^2}{4\gamma^*} B(t, T)^2
+A(t, T) = (B(t, T) - (T - t))(\bar{r}^{*}- \frac{\sigma^2}{2\gamma^{*2}}) - \frac{\sigma^2}{4\gamma^{*}} B(t, T)^2
 $$
 
-The parameters $\gamma^*$, $\bar{r}^*$, and $\sigma$ are the risk-neutral parameters with is different from the real-world parameters $\gamma$, $\bar{r}$, and $\sigma$. 
+The parameters $\gamma^{*}$, $\bar{r}^{*}$, and $\sigma$ are the risk-neutral parameters with is different from the real-world parameters $\gamma$, $\bar{r}$, and $\sigma$. 
 
 To calibrate the model, we minimize the sum of squared differences between the market prices of zero-coupon bonds and the model prices:
 
 $$
-\min_{\gamma^*, \bar{r}^*, \sigma} \sum_{i=1}^{N} (P^{mkt}(0, T_i) - P(0, T_i))^2
+\min_{\gamma^{*}, \bar{r}^{*}, \sigma} \sum_{i=1}^{N} (P^{mkt}(0, T_i) - P(0, T_i))^2
 $$  
 
 
@@ -266,7 +267,7 @@ B(t, T) = \frac{2(e^{\eta (T - t)} - 1)}{(\gamma^* + \eta)(e^{\eta (T - t)} - 1)
 $$
 
 $$
-A(t, T) = \frac{2\gamma^* \bar{r}^*}{\alpha} \ln\left(\frac{2\eta e^{(\gamma^* + \eta)(T - t)/2}}{(\gamma^* + \eta)(e^{\eta (T - t)} - 1) + 2\eta}\right)
+A(t, T) = \frac{2\gamma^{*} \bar{r}^{*}}{\alpha} \ln\left(\frac{2\eta e^{(\gamma^{*} + \eta)(T - t)/2}}{(\gamma^{*} + \eta)(e^{\eta (T - t)} - 1) + 2\eta}\right)
 $$
 
 $$
@@ -276,12 +277,12 @@ $$
 minimizing the sum of squared differences between the market prices of zero-coupon bonds and the model prices given $\alpha$:
 
 $$
-\min_{\gamma^*, \bar{r}^*} \sum_{i=1}^{N} (P^{mkt}(0, T_i) - P(0, T_i))^2
+\min_{\gamma^{*}, \bar{r}^{*}} \sum_{i=1}^{N} (P^{mkt}(0, T_i) - P(0, T_i))^2
 $$
 
-Note that $\alpha$ is estimated from the real-world data and kept constant during the risk-neutral calibration instead of estimated together with $\gamma^*$ and $\bar{r}^*$. This is because the volatility parameter $\alpha$ is assumed to be the same under both the real-world and risk-neutral measures, while the drift parameters $\gamma$ and $\bar{r}$ can differ between the two measures due to risk premia. Also, the influence of $\alpha$ on bond prices is typically less significant compared to the drift parameters, making the calibration unstable if all three parameters are estimated simultaneously.
+Note that $\alpha$ is estimated from the real-world data and kept constant during the risk-neutral calibration instead of estimated together with $\gamma^{*}$ and $\bar{r}^{*}$. This is because the volatility parameter $\alpha$ is assumed to be the same under both the real-world and risk-neutral measures, while the drift parameters $\gamma$ and $\bar{r}$ can differ between the two measures due to risk premia. Also, the influence of $\alpha$ on bond prices is typically less significant compared to the drift parameters, making the calibration unstable if all three parameters are estimated simultaneously.
 
-$\gamma^* \times \bar{r}^*$ should be greater than $\frac{\alpha}{2}$ to ensure the Feller condition is satisfied and the interest rates remain positive. If not, the model may not be suitable for the market data.
+$\gamma^{*} \times \bar{r}^{*}$ should be greater than $\frac{\alpha}{2}$ to ensure the Feller condition is satisfied and the interest rates remain positive. If not, the model may not be suitable for the market data.
 
 
 
@@ -339,6 +340,7 @@ Steps:
 1. Choose initial short term rate $r_0$ and long term rate $r_0(\tau)$ for a given maturity $\tau$.
 2. Decompose for $\phi_{1,0}$ and $\phi_{2,0}$:
     
+
     $$
     \phi_{1,0} + \phi_{2,0} = r_0
     $$
@@ -416,12 +418,12 @@ $$
 We minimize the sum of squared differences between the market prices of zero-coupon bonds and the model prices:
 
 $$
-J(\gamma^*, \bar{r}^*) = \sum_{i=1}^{N} (P^{mkt}(0, T_i) - P(0, T_i))^2
+J(\gamma^{*}, \bar{r}^{*}) = \sum_{i=1}^{N} (P^{mkt}(0, T_i) - P(0, T_i))^2
 $$
 
 
 
-- **When \(\gamma_1 = 0, \ \gamma_2 \neq 0\)**  
+- **When $\gamma_1 = 0, \gamma_2 \neq 0$**  
 
 $$
 \begin{aligned}
@@ -440,7 +442,7 @@ A(t;T) &=
 $$
 
 
-- **When \(\gamma_1 \neq 0, \ \gamma_2 = 0\)**  
+- **When $\gamma_1 \neq 0, \gamma_2 = 0$**  
 
 $$
 \begin{aligned}
@@ -458,7 +460,7 @@ A(t;T) &=
 \end{aligned}
 $$
 
-- **When \(\gamma_1 = 0, \ \gamma_2 = 0\)**
+- **When $\gamma_1 = 0, \gamma_2 = 0$**
 
 $$
 A(t; T) = (\sigma_1^2 + \sigma_2^2 + 2 \rho \sigma_1 \sigma_2) \frac{(T-t)^3}{6}
